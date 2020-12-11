@@ -640,7 +640,7 @@ FUNCTION {format.doi.linkmaker}
     }
     {
       new.block
-      "\href{http://dx.doi.org/" * doi * "}{" * 
+      "\href{http://doi.org/" * doi * "}{" * 
     }
   if$
 }
