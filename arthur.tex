@@ -1,0 +1,116 @@
+\documentclass[%
+  reprint,
+  aps,
+  pra,
+  superscriptaddress,
+  a4paper
+]{revtex4-2}
+
+\usepackage{xcolor}
+\usepackage{lipsum}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+  bookmarks=false,
+  bookmarks=true,
+  colorlinks,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+  plainpages=false,
+  pdfpagelabels,
+  final,
+  breaklinks=true
+]{hyperref}
+\hypersetup{
+pdftitle={The Arthur BibTeX style file}, 
+pdfauthor={Emilio Pisanty}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{natbib}
+%% reduce spacing inside [1, 2]:
+\makeatletter \def\NAT@def@citea{\def\@citea{\NAT@separator\,}} \makeatother
+\newcommand{\citer}[1]{Ref.~\citealp{#1}}
+\newcommand{\citers}[1]{Refs.~\citealp{#1}}
+
+
+\newcommand{\reffig}[1]{Fig.~\ref{#1}}
+
+
+
+\begin{document}
+
+
+
+\title{The Arthur style for BibTeX}
+
+\author{Emilio Pisanty}
+\email{emilio.pisanty@mbi-berlin.de}
+\affiliation{Max Born Institute for Nonlinear Optics and Short Pulse Spectroscopy, Max Born Strasse 2a, D-12489 Berlin, Germany}
+
+\date{\today}
+
+\begin{abstract}
+This is a showcase file for the BibTeX style file \texttt{arthur.bst}.
+\end{abstract}
+
+\maketitle
+
+The BibTeX style file \texttt{arthur.bst} is optimized for physics (more specifically atomic, molecular and optical physics). It was generated from the \texttt{makebst} utility, and then modified by hand to give it DOI linking capabilities comparable to those used in production by modern physics journal
+
+It also admits arbitrary eprint capability for indicating the URL and identifier of the eprint,
+\begin{verbatim}
+  eprint = {https://arxiv.org/abs/yymm.nnnn},
+  archive = {arXiv:yymm.nnnn},
+\end{verbatim}
+whether that be on arXiv or somewhere else, and it has a dedicated \texttt{preprint} entry type:
+\begin{verbatim}
+@preprint{arxivPreprint,
+  author = {Ann Author},
+  title = {A preprint still under review},
+  year = {2020},
+  eprint = {https://arxiv.org/abs/yymm.nnnn},
+  archive = {arXiv:yymm.nnnn},
+}  
+\end{verbatim}
+
+This file exists to showcase how the style file behaves when typesetting 
+journal articles~\cite{journalArticle},
+preprints~\cite{arxivPreprint}, 
+books~\cite{bookExample}, 
+theses~\cite{thesisExample}, 
+code~\cite{codeExample}, and
+collections~\cite{collectionExample}.
+This repository also contains two shorter versions of the style file, \texttt{arthurShort.bst} and \texttt{arthurUltraShort.bst}, which produce minified entries.
+
+
+The name `arthur' derives from the name of the `master' style form the \texttt{makebst} utility, \texttt{merlin.bst}, in the understanding that \texttt{arthur} is still learning from \texttt{merlin}.
+
+On the whole, I am extremely happy with this style file, though it does have a minor `tick' in that it tends to hyperlink the period between a paper's title and its journal reference; this is a side effect of the DOI linker which I was unable to iron out. 
+If this is found undesirable, it can be fixed using a simple Perl script; a sample `prettifier' shell file is provided.
+
+
+
+\bibliographystyle{arthur}
+\bibliography{references}{}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
