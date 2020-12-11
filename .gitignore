@@ -1,3 +1,8 @@
+## Sundries
+*~
+~$*
+~*
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -11,6 +16,9 @@
 *.cb
 *.cb2
 .*.lb
+
+#also
+*Notes.bib
 
 ## Intermediate documents:
 *.dvi
