@@ -1215,6 +1215,19 @@ FUNCTION {article}
   format.eprint output
   fin.entry
 }
+
+FUNCTION {preprint}
+{ output.bibitem
+  format.authors "author" output.check
+  new.block
+  format.title "title" output.check
+  new.block
+  format.note output
+  format.eprint output
+  format.year output
+  fin.entry
+}
+
 FUNCTION {book}
 { output.bibitem
   author empty$
