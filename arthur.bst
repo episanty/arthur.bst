@@ -709,8 +709,7 @@ FUNCTION {link.tag.shut}
 
 FUNCTION {link.open}
 {
-  link.tag.open 
-  output.nopunct
+  link.tag.open *
 }
 
 FUNCTION {link.shut}
