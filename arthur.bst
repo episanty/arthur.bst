@@ -645,95 +645,6 @@ FUNCTION {format.doi.linkmaker}
   if$
 }
 
-
-
-
-
-
-%%% code taken from apsrev4-2.bst
-
-
-INTEGERS
-{
-  punctuation.state punctuation.no punctuation.space punctuation.yes
-}
-
-
-FUNCTION {output.nopunct}
-{
-  punctuation.no 'punctuation.state :=
-  output.nonnull
-}
-
-FUNCTION {doi.base}
-{
-  "https://doi.org/"
-}
-
-FUNCTION {doi.base.command}
-{
-  "\doibase "
-}
-
-FUNCTION {noop.command}
-{
-  "\href@noop "
-}
-
-
-FUNCTION {href.command}
-{
-  "\href "
-}
-
-FUNCTION {link.tag.open}
-{
-  doi duplicate$ empty$
-    {
-      pop$
-      href.command
-      if$
-    }
-    {
-      "https://doi.org/" swap$ *
-      href.command
-    }
-  if$
-  "{" * swap$ * "} {" *
-}
-
-FUNCTION {link.tag.shut}
-{
-  "}"
-}
-
-FUNCTION {link.open}
-{
-  link.tag.open *
-}
-
-FUNCTION {link.shut}
-{
-  link.tag.shut *
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 FUNCTION {thesis.linkmaker}
 { url empty$
     {'skip$}
@@ -1284,22 +1195,22 @@ FUNCTION {article}
   new.block
   format.title "title" output.check
   new.block
+	format.doi.linkmaker
   crossref missing$
     {
-      link.open
-	  journal
+		  journal
       "journal" bibinfo.check
       emphasize
       "journal" output.check
       add.blank
       format.vol.num.pages output
-      link.shut
     }
     { format.article.crossref output.nonnull
       format.pages output
     }
   if$
   new.block
+	"}" *
   format.note output
   format.eprint output
   fin.entry
