@@ -1,4 +1,18 @@
 %%
+%% This is file `lancelot.bst`. It is a hand-edited version of apsrev4-2.bst.
+%%
+%% The original, apsrev4-2.bst, was prepared by the American Physical Society and is distributed in most up-to-date standard LaTeX distributions.
+%% The modifications from apserv4-2.bst into lancelot.bst were performed by Emilio Pisanty (2025).
+%% The core modifications are the following:
+%%  - Improved handling of journal-article eprints, allowing for specifying the archive and eprint URL separately.
+%%  - Turned on output of article titles.
+%%  - Pages set to range, added p./pp. marking, added journal number
+%%  - Removed 'SISSA' journal special-case handling, to simplify the bst code
+%%  - A 'preprint' type of entry.
+%%
+%% This file's primary home is in the GitHub repository https://github.com/episanty/arthur.bst
+
+
 %% This is file `apsrev4-2.bst', and is a hand-edited version of apsrev4-1.bst
  % ===============================================================
  % IMPORTANT NOTICE:
@@ -209,9 +223,9 @@ FUNCTION { control.init }
   'control.author.reversed :=
   #1
   'control.editor :=
-  #-1
+  #0 %%% this line edited
   'control.title  :=
-  #0
+  #1 %%% this line edited
   'control.pages  :=
   #0
   'control.eprint :=
@@ -1313,53 +1327,71 @@ FUNCTION {eprint.command}
   "\Eprint "
 }
 
-FUNCTION {format.eprint.controlled}
-{
-  eprint duplicate$ empty$
-  control.eprint #1 =
-  or
-    { pop$ "" }
-    {
-      duplicate$
-      ""
-        archive duplicate$ empty$ { pop$ archiv.base } 'skip$ if$ *
-        "/" *
-        swap$ *
-        "{" swap$ * "} " *
-      swap$
-      ""
-        archivePrefix duplicate$ empty$ { pop$ "" } { ":" * } if$ *
-        swap$ *
-        primaryClass  duplicate$ empty$ { pop$ "" } { " [" swap$ * "]" * } if$ *
-        "{" swap$ * "} " *
-      *
-      eprint.command swap$ *
-    }
-  if$
-}
 
+%%%%% start of new code
 FUNCTION {format.eprint}
-{
-  eprint duplicate$ empty$
-    { pop$ "" }
+{ eprint duplicate$ empty$
+    'skip$
     {
-      duplicate$
-      ""
-        archive duplicate$ empty$ { pop$ archiv.base } 'skip$ if$ *
-        "/" *
-        swap$ *
-        "{" swap$ * "} " *
-      swap$
-      ""
-        archivePrefix duplicate$ empty$ { pop$ "" } { ":" * } if$ *
-        swap$ *
-        primaryClass  duplicate$ empty$ { pop$ "" } { " [" swap$ * "]" * } if$ *
-        "{" swap$ * "} " *
-      *
-      eprint.command swap$ *
+		  "\href{"  swap$ * "}{" *
+			archive empty$
+        { "E-print" * }
+        { archive * }
+      if$
+      "}" *
     }
   if$
 }
+%%%%% end of new code
+
+
+%FUNCTION {format.eprint.controlled}
+%{
+%  eprint duplicate$ empty$
+%  control.eprint #1 =
+%  or
+%    { pop$ "" }
+%    {
+%      duplicate$
+%      ""
+%        archive duplicate$ empty$ { pop$ archiv.base } 'skip$ if$ *
+%        "/" *
+%        swap$ *
+%        "{" swap$ * "} " *
+%      swap$
+%      ""
+%        archivePrefix duplicate$ empty$ { pop$ "" } { ":" * } if$ *
+%        swap$ *
+%        primaryClass  duplicate$ empty$ { pop$ "" } { " [" swap$ * "]" * } if$ *
+%        "{" swap$ * "} " *
+%      *
+%      eprint.command swap$ *
+%    }
+%  if$
+%}
+%
+%FUNCTION {format.eprint}
+%{
+%  eprint duplicate$ empty$
+%    { pop$ "" }
+%    {
+%      duplicate$
+%      ""
+%        archive duplicate$ empty$ { pop$ archiv.base } 'skip$ if$ *
+%        "/" *
+%        swap$ *
+%        "{" swap$ * "} " *
+%      swap$
+%      ""
+%        archivePrefix duplicate$ empty$ { pop$ "" } { ":" * } if$ *
+%        swap$ *
+%        primaryClass  duplicate$ empty$ { pop$ "" } { " [" swap$ * "]" * } if$ *
+%        "{" swap$ * "} " *
+%      *
+%      eprint.command swap$ *
+%    }
+%  if$
+%}
 
 FUNCTION {format.translation}
 { translation duplicate$ empty$
@@ -2061,6 +2093,20 @@ FUNCTION {parenthesize}
   if$
 }
 
+%%% start of new code
+FUNCTION {make.number.initial}
+{
+  duplicate$ empty$
+    'skip$
+    {
+      before.all 'output.state :=
+      " no.~" swap$ * 
+    }
+  if$
+}
+%%% end of new code
+
+
 FUNCTION {format.date}
 {
   year "year" bibinfo.check duplicate$ empty$
@@ -2315,6 +2361,14 @@ FUNCTION {format.journal.pages}
               first.page
             } if$
           } if$
+          %%% start of new code
+          pages multi.page.check
+            'bbl.pages
+            'bbl.page
+          if$
+          "~" *
+          swap$ * 
+          %%% end of new code
           "pages" bibinfo.check
           *
         }
@@ -2618,66 +2672,42 @@ FUNCTION {article}
   article.title.produce
   output.article.booktitle
   crossref missing$
-%% Handle special case of SISSA journals which require an issue number for unique citations and use volume/year interchangably
     {
-      journal "J. High Energy Phys." =
-      journal "J. High Energ. Phys." = or
-      journal "JHEP" = or
-      journal "Journal of Cosmology and Astroparticle Physics" = or
-      journal "J. Cosmol. Astropart. Phys." = or
-      journal "JCAP" = or
-      journal "Journal of Instrumentation" = or
-      journal "J. Instrum." = or
-      journal "JINST" = or
-      journal "Journal of Statistical Mechanics" = or
-      journal "J. of Stat. Mech." = or
-      journal "J. Stat. Mech.: Theory Exp." = or
-      journal "JSTAT" = or
+      eid missing$
+      pages missing$ and
+      doi missing$ not and
       {
-          link.open
-          journal
-          "journal" bibinfo.warn
-          "journal" 'bibfield :=
-          output
-          add.blank
+        journal
+        "journal" bibinfo.warn
+        emphasize %%% this line edited
+        "journal" 'bibfield :=
+        output
+        add.blank
+        format.ser.vol.num
+        output
+        link.open
+        doi output
+        link.shut
+        format.date.output.check
+      }
+      {
+        link.open
+        journal
+        emphasize %%% this line edited
+        "journal" bibinfo.warn
+        "journal" 'bibfield :=
+        output
+        add.blank
+          %%% start of edited code
           format.vol.num output
-          number parenthesize
+          number make.number.initial
           "number" bibinfo.warn
           "number" 'bibfield :=
           output
-          eid.or.pages
-          link.shut
-      }
-      {
-          eid missing$
-          pages missing$ and
-          doi missing$ not and
-          {
-            journal
-            "journal" bibinfo.warn
-            "journal" 'bibfield :=
-            output
-            add.blank
-            format.ser.vol.num
-            output
-            link.open
-            doi output
-            link.shut
-            format.date.output.check
-          }
-          {
-            link.open
-            journal
-            "journal" bibinfo.warn
-            "journal" 'bibfield :=
-            output
-            add.blank
-            format.ser.vol.num
-            output
-            eid.or.pages
-            format.date.output.check
-            link.shut
-          } if$
+          %%% end of edited code
+        eid.or.pages
+        format.date.output.check
+        link.shut
       } if$
     }{
       format.article.crossref output.nonnull
@@ -2687,10 +2717,25 @@ FUNCTION {article}
   new.block.comma
   new.sentence.comma
   format.note output
-  format.eprint.controlled output
+  format.eprint output %%% this line modified
   format.translation output
   fin.entry
 }
+
+
+%%%% start of new code
+FUNCTION {preprint}
+{ output.bibitem
+  format.authors "author" output.check
+  new.block
+  format.title "title" output.check
+  new.block
+  format.note output
+  format.eprint output
+  format.date output
+  fin.entry
+}
+%%%% end of new code
 
 FUNCTION {book}
 { output.bibitem
