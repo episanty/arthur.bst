@@ -46,7 +46,7 @@ pdfauthor={Emilio Pisanty}
 
 
 
-\title{The Arthur style for BibTeX}
+\title{The Arthur and Lancelot styles for BibTeX}
 
 \author{Emilio Pisanty}
 \email{emilio.pisanty@kcl.ac.uk}
@@ -55,19 +55,21 @@ pdfauthor={Emilio Pisanty}
 \date{\today}
 
 \begin{abstract}
-This is a showcase file for the BibTeX style file \texttt{arthur.bst}.
+This is a showcase file for the BibTeX style files \texttt{arthur.bst} and \texttt{lancelot.bst}.
 \end{abstract}
 
 \maketitle
 
-The BibTeX style file \texttt{arthur.bst} is optimized for physics (more specifically atomic, molecular and optical physics). It was generated from the \texttt{makebst} utility, and then modified by hand to give it DOI linking capabilities comparable to those used in production by modern physics journal
+The BibTeX style files \texttt{arthur.bst} and \texttt{lancelot.bst} are optimized for physics (more specifically atomic, molecular and optical physics). 
+\texttt{arthur.bst} was generated from the \texttt{makebst} utility, and then modified by hand to give it DOI linking capabilities comparable to those used in production by modern physics journal.
+\texttt{lancelot.bst} is a hand-modified version of \texttt{apsrev4-2.bst}.
 
-It also admits arbitrary eprint capability for indicating the URL and identifier of the eprint,
+Both style files admit arbitrary eprint capability for indicating the URL and identifier of the eprint,
 \begin{verbatim}
   eprint = {https://arxiv.org/abs/yymm.nnnn},
   archive = {arXiv:yymm.nnnn},
 \end{verbatim}
-whether that be on arXiv or somewhere else, and it has a dedicated \texttt{preprint} entry type:
+whether that be on arXiv or somewhere else, and they both have a dedicated \texttt{preprint} entry type:
 \begin{verbatim}
 @preprint{arxivPreprint,
   author = {Ann Author},
@@ -78,8 +80,8 @@ whether that be on arXiv or somewhere else, and it has a dedicated \texttt{prepr
 }  
 \end{verbatim}
 
-This file exists to showcase how the style file behaves when typesetting 
-journal articles~\cite{journalArticle},
+The presend document exists to showcase how the style files behaves when typesetting a variety of references, including
+journal articles~\cite{journalArticle, journalArticle2},
 preprints~\cite{arxivPreprint}, 
 books~\cite{bookExample}, 
 theses~\cite{thesisExample}, 
@@ -89,17 +91,23 @@ This repository also contains two shorter versions of the style file, \texttt{ar
 
 
 The name `arthur' derives from the name of the `master' style form the \texttt{makebst} utility, \texttt{merlin.bst}, in the understanding that \texttt{arthur} is still learning from \texttt{merlin}.
+The name `lancelot' was made to give `arthur' a friend.
 
-On the whole, I am extremely happy with this style file, though it does have a minor `tick' in that it tends to hyperlink the period between a paper's title and its journal reference; this is a side effect of the DOI linker which I was unable to iron out. 
+On the whole, I am extremely happy with both this style files.
+The original, \texttt{arthur}, have a minor `tick', in that it tends to hyperlink the period between a paper's title and its journal reference; this is a side effect of the DOI linker which I was unable to iron out. 
 If this is found undesirable, it can be fixed using a simple Perl script; a sample `prettifier' shell file is provided.
 
-For some historical context, I prepared this style file around 2015, before version 4.2 of the \texttt{revtex} package became widespread. 
+The newer file, \texttt{lancelot}, does not suffer from this, and it is the one I (currently) prefer.
+
+For some historical context, I prepared the style file \texttt{arthur} around 2015, before version 4.2 of the \texttt{revtex} package became widespread. 
 The updated version of \texttt{revtex} does provide APS style files which include proper DOI hyperlinking, with the clearest contender being \texttt{apsrev4-2.bst}, and those may be found preferable depending on individual tastes; copies are easily found online, and they are natively available to \texttt{revtex4-2} documents. 
-Nevertheless, a copy of \texttt{apsrev4-2.bst} is included in this repository (under its LPPL license) for ease of comparison.
+A copy of \texttt{apsrev4-2.bst} is included in this repository (under its LPPL license) for ease of comparison.
+The newer homebrew, \texttt{lancelot.bst}, is a modification of the new-standard \texttt{revtex} to streamline the handling of preprints and arXiv (or other) eprint links.
 
 
 %\bibliographystyle{apsrev4-2}
-\bibliographystyle{arthur}
+%\bibliographystyle{arthur}
+\bibliographystyle{lancelot}
 \bibliography{references}{}
 
 
