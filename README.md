@@ -8,6 +8,8 @@ The style files are optimized for physics (more specifically atomic, molecular a
 The two files have different origins:
  - `arthur.bst` was modified by hand from output provided by the `makebst` utility, around 2015.
  - `lancelot.bst` is a hand-modified version of the Physical Review style file, `apsrev4-2.bst`.
+ 
+These files contain content modified from `apsrev4-2.bst` and created from `makebst`, both under the Latex Project Public Licence (LPPL). Copyright for the additional modifications rests as (c) Emilio Pisanty (2025); all such modifications are also available under the LPPL.
 
 The references roughly look as follows:
 
