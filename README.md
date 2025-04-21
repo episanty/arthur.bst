@@ -11,6 +11,6 @@ The two files have different origins:
 
 The references roughly look as follows:
 
-[<img src="https://github.com/episanty/arthur.bst/blob/main/sample-lancelot.png?raw=true" width="600" title="Sample of references produced with lancelot.bst">](https://github.com/episanty/arthur.bst/blob/master/build/arthur.pdf)
+[<img src="https://github.com/episanty/arthur.bst/blob/main/sample-lancelot.png?raw=true" width="900" title="Sample of references produced with lancelot.bst">](https://github.com/episanty/arthur.bst/blob/master/build/arthur.pdf)
 
 
